@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val mainView = findViewById<ViewGroup>(R.id.main)
-
+        Log.d(TAG, "window option ${mainView.fitsSystemWindows}")
         mainView.post {
             val statusBarHeight = ViewCompat.getRootWindowInsets(mainView)?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
             val navigationBarHeight = ViewCompat.getRootWindowInsets(mainView)?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
@@ -33,3 +33,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+val TAG = "지훈"
