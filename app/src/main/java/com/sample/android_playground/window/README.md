@@ -191,7 +191,6 @@ if (!mWindowNoTitle) {
 SystemBars크기 만큼 Padding 값을 갖고 View를 보여준다는 의미이다.
 
 
-
 #### 2-3. 🧾 ensureSubDecor > createSubDecor - 3. ContentView의 자식뷰들 이동
 
 ```java
@@ -203,7 +202,6 @@ if (windowContentView != null) {
         windowContentView.removeViewAt(0);
         contentView.addView(child);
     }
-
     ...
 }
 ```
@@ -220,8 +218,11 @@ mWindow.setContentView(subDecor);
 1. Layout Inspector에서 내가 설정하지 않은 LinearLayout과 FrameLayout은 기본적인 Layout 세팅을 위해서 만들어지고 있는 것이다.
 2. Activity에서 SystemBars(Navigation, Status ...) 등이 제외되던 것은 이미 상위 뷰에서 `android:fitsSystemWindows="true"` 를 세팅하고 있기 때문이다.
 
+![img.png](image/window_phone.png)
 
 ## StatusBar, Navigation 영역까지 그리기
+
+
 
 ## CutOut
 
