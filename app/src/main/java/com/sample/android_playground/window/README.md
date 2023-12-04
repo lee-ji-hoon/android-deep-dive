@@ -28,12 +28,11 @@ Window는 Android에서 무언가를 그려낼 수 있는 화면이다. 코드�
 ### 🤔 Window와 Activity관계
 
 - Activity는 하나 이상의 Window 객체를 가질 수 있다.
-  - Dialog 같은 경우 Window를 사용하기 때문에 Activity에서 여러 Window를 갖는다는 의미
+    - Dialog 같은 경우 Window를 사용하기 때문에 Activity에서 여러 Window를 갖는다는 의미
 - Activity에서 `getWindow` 를 통해 `Window` 객체를 갖고 와서 조작을 한다.
-  - `Window`의 풀스크린 모드 설정 등 `Window`의 표기 방식을 변경할 수 있다. -> 이 부분도 어떻게 다루는 것인지 다룰 예정
+    - `Window`의 풀스크린 모드 설정 등 `Window`의 표기 방식을 변경할 수 있다. -> 이 부분도 어떻게 다루는 것인지 다룰 예정
 
-
-    즉 정리해보자면 Window는 Activity안에 존재하며 Activity는 여러 개의 Window를 갖기도 한다. 
+  즉 정리해보자면 Window는 Activity안에 존재하며 Activity는 여러 개의 Window를 갖기도 한다.
 
 ### 🤔 Layout Inspector로 확인하기
 
@@ -83,11 +82,11 @@ Activity에서 setContentView를 사용해서 뷰를 세팅해준다.
 ```java
 @Override
 // AppCompatActivity
-public void setContentView(@LayoutRes int layoutResID) {
-    initViewTreeOwners();
-    // AppCompatDelegate 에게 layout을 inflate 하는 것을 위임한다.
-    getDelegate().setContentView(layoutResID);
-}
+public void setContentView(@LayoutRes int layoutResID){
+        initViewTreeOwners();
+        // AppCompatDelegate 에게 layout을 inflate 하는 것을 위임한다.
+        getDelegate().setContentView(layoutResID);
+        }
 ```
 
 > setContentView는 3가지가 있지만, 결국 하나로 귀결되기 때문에 굳이 다루지는 않겠습니다.
@@ -96,13 +95,13 @@ public void setContentView(@LayoutRes int layoutResID) {
 
 ```java
 @Override
-public void setContentView(int resId) {
-    ensureSubDecor();
-    ViewGroup contentParent = mSubDecor.findViewById(android.R.id.content);
-    contentParent.removeAllViews();
-    LayoutInflater.from(mContext).inflate(resId, contentParent);
-    mAppCompatWindowCallback.bypassOnContentChanged(mWindow.getCallback());
-}
+public void setContentView(int resId){
+        ensureSubDecor();
+        ViewGroup contentParent=mSubDecor.findViewById(android.R.id.content);
+        contentParent.removeAllViews();
+        LayoutInflater.from(mContext).inflate(resId,contentParent);
+        mAppCompatWindowCallback.bypassOnContentChanged(mWindow.getCallback());
+        }
 ```
 
 이 함수 자체만 봤을 때는 subDecor()가 제대로 install 됐는지 확인 하고 특정 동작을 하는 간단한 코드로 보인다.  
@@ -111,28 +110,28 @@ public void setContentView(int resId) {
 #### 2-1. 🧾 AppCompatDelegateImpl 의 setContentView > ensureSubDecor
 
 ```java
-private void ensureSubDecor() {
-    if (!mSubDecorInstalled) {
-        mSubDecor = createSubDecor();
+private void ensureSubDecor(){
+        if(!mSubDecorInstalled){
+        mSubDecor=createSubDecor();
         // 더 많은 코드가 있지만 핵심은 subDecor가 install 돼있지 않다면 createSubDecor() 한다는 것이다.
         ...
-    }
-}
+        }
+        }
 ```
 
 #### 2-2. 🧾 ensureSubDecor > createSubDecor - 1  테마 스타일 속성 탐색 및 설정
 
 ```java
-private ViewGroup createSubDecor() {
-    TypedArray a = mContext.obtainStyledAttributes(R.styleable.AppCompatTheme);
-        if (!a.hasValue(R.styleable.AppCompatTheme_windowActionBar)) {
+private ViewGroup createSubDecor(){
+        TypedArray a=mContext.obtainStyledAttributes(R.styleable.AppCompatTheme);
+        if(!a.hasValue(R.styleable.AppCompatTheme_windowActionBar)){
         a.recycle();
         // 테마 속성에서 AppCompatTheme_windowActionBar 가 없다면 아래와 같은 Exception을 throw하는데 가끔 봤던 오류다.
         throw new IllegalStateException("You need to use a Theme.AppCompat theme (or descendant) with this activity.");
-    }
-    a.recycle();
-    ... // 윈도우에 필요한 기능을 요청(requestWindowFeature)  
-}
+        }
+        a.recycle();
+        ... // 윈도우에 필요한 기능을 요청(requestWindowFeature)  
+        }
 ```
 
 #### 2-2. 🧾 ensureSubDecor > createSubDecor - 2 subDecor Layout 설정
@@ -140,20 +139,20 @@ private ViewGroup createSubDecor() {
 ```java
 // mWindowNoTitle, mIsFloating, mHasActionBar, mOverlayActionMode 등의 조건에 따라 다른 레이아웃을 로드한다.
 // mWindowNoTitle은 보통 theme에서 활성화를 안하기 때문에 true 로 들어온다. 즉 여기를 볼 필요 없이 else문만 보면 된다.
-if (!mWindowNoTitle) {
-    if (mIsFloating) {
+if(!mWindowNoTitle){
+        if(mIsFloating){
         ...
-    } else if (mHasActionBar) {
+        }else if(mHasActionBar){
         ...
-    }
-} else {
-    // overlay 형태로 화면 위에 표시되는지에 대한 Boolean 값인데, 기본값이 false라고 생각하면 된다
-    if (mOverlayActionMode) {
-        subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple_overlay_action_mode, null);
-    } else {
-        subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple, null);
-    }
-}
+        }
+        }else{
+        // overlay 형태로 화면 위에 표시되는지에 대한 Boolean 값인데, 기본값이 false라고 생각하면 된다
+        if(mOverlayActionMode){
+        subDecor=(ViewGroup)inflater.inflate(R.layout.abc_screen_simple_overlay_action_mode,null);
+        }else{
+        subDecor=(ViewGroup)inflater.inflate(R.layout.abc_screen_simple,null);
+        }
+        }
 ```
 
 위 코드에서 `subDecor = (ViewGroup) inflater.inflate(R.layout.abc_screen_simple, null);` 내용이 보이는데 screen_simple은 아래와 같다.
@@ -163,24 +162,13 @@ if (!mWindowNoTitle) {
 [Google Git - screen_simple](https://android.googlesource.com/platform/frameworks/base/+/master/core/res/res/layout/screen_simple.xml)
 
 ```xml
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:fitsSystemWindows="true"
     android:orientation="vertical">
-    <ViewStub android:id="@+id/action_mode_bar_stub"
-              android:inflatedId="@+id/action_mode_bar"
-              android:layout="@layout/action_mode_bar"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:theme="?attr/actionBarTheme" />
-    <FrameLayout
-         android:id="@android:id/content"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"
-         android:foregroundInsidePadding="false"
-         android:foregroundGravity="fill_horizontal|top"
-         android:foreground="?android:attr/windowContentOverlay" />
+    <ViewStub android:id="@+id/action_mode_bar_stub" android:inflatedId="@+id/action_mode_bar" android:layout="@layout/action_mode_bar" android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:theme="?attr/actionBarTheme" />
+    <FrameLayout android:id="@android:id/content" android:layout_width="match_parent" android:layout_height="match_parent" android:foregroundInsidePadding="false"
+        android:foregroundGravity="fill_horizontal|top" android:foreground="?android:attr/windowContentOverlay" />
 </LinearLayout>
 ```
 
@@ -190,20 +178,19 @@ if (!mWindowNoTitle) {
 
 SystemBars크기 만큼 Padding 값을 갖고 View를 보여준다는 의미이다.
 
-
 #### 2-3. 🧾 ensureSubDecor > createSubDecor - 3. ContentView의 자식뷰들 이동
 
 ```java
-final ViewGroup windowContentView = (ViewGroup) mWindow.findViewById(android.R.id.content);
-if (windowContentView != null) {
-    // 자식 뷰들이 있다면 자식뷰들 현재 contentView에 추가
-    while (windowContentView.getChildCount() > 0) {
-        final View child = windowContentView.getChildAt(0);
+final ViewGroup windowContentView=(ViewGroup)mWindow.findViewById(android.R.id.content);
+        if(windowContentView!=null){
+        // 자식 뷰들이 있다면 자식뷰들 현재 contentView에 추가
+        while(windowContentView.getChildCount()>0){
+final View child=windowContentView.getChildAt(0);
         windowContentView.removeViewAt(0);
         contentView.addView(child);
-    }
-    ...
-}
+        }
+        ...
+        }
 ```
 
 #### 2-4. 🧾 ensureSubDecor > createSubDecor - 4. subDecor를 Window의 ContentView로 설정
@@ -222,19 +209,72 @@ mWindow.setContentView(subDecor);
 
 ## StatusBar, Navigation 영역까지 그리기
 
+특정 상황에서 StatusBar와 NavigationBar를 투명 처리하고 View를 그려야하는 경우가 있다.
 
+회사 앱으로 치자면 Landscape + FullScree이 그 경우라고 할 수 있다
+
+> targetSdk가 30 미만인 경우도 있지만 targetSdk가 30미만인 경우는 요즘 없다고 봐도 무방하니 스킵
+
+<img src= "image/withoutSystemBars.png" width = "500" />
+
+- `FitWindowsLinearLayout` 은 실제로 UI가 그려질 공간이다.
+    - 위에서 `screen_simple.xml` 봤던 이 XML이라고 생각하면 편하다.
+- `WindowCompat.setDecorFitsSystemWindows(window, false)` 인 경우에는 SystemBars 전체를 감싸고 있다
+    - 따로 설정을 안해주면 `screen_simple.xml` 에서 `android:fitsSystemWindows="true"` 이 기본 설정이기 때문에 SystemBars 만큼 Padding이 생긴다.
+
+#### 🤔 WindowCompat.setDecorFitsSystemWindows(window, false) 간단하게만 파보자.
+
+![img.png](image/setDecorFitsSystemWindows_1.png)
+
+- `setDecorFitsSystemWindows` 첫 사짅을 보면 버전분기에 따라서 Impl을 다르게 해서 호출하는 모습이다.
+- 그런데 2번째 사진을 보면 구현부가 아예 없는데 주석으로만 추측을 해보자.
+    - true로 설정하면, 프레임워크는 이제 더 이상 사용되지 않는 `View.SYSTEM_UI_LAYOUT_FLAGS` 및 `WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE` Flag를 검사하고, 이러한 Flag에 따라 콘텐츠를 맞춥니다
+    - false로 설정하면, 프레임워크는 ContentView에 WindowInset을 맞추지 않고, 단순히 WindowInset을 ContentView에 전달합니다.
+        - ContentView -> FitWindowsLinearLayout 과 거의 비슷하게 보면 되는데 이 View를 WindowInset 고려하지 않고 꽉차게 그린다는 의미이다.
+
+#### 🤔 그래도 구현부를 간단하게라도 볼 수 있는 방법이 없나?
+
+- `Window.java` 는 `abstract class`다. 결국에는 구현부가 존재한다.
+- Android는 Open Source이기 때문에 https://cs.android.com/ 여기서 전부 찾을 수 있다. 찾은 결과는 아래와 같다.
+
+[Android Code Search](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/policy/PhoneWindow.java;l=3983?q=public%20void%20setDecorFitsSystemWindows)
+PhoneWindow에 있을거 같았는데 진짜로 있다.
+
+![img.png](image/setDecorFitsSystemWindows_2.png)
+
+위 사진대로 보면 true / false 값에 따라 Listener에 특정 값을 넣어주는 모습이다.
+
+- true -> `sDefaultContentInsetsApplier`
+- false -> Null
+
+이 이상 안들어가도 함수명만 보면 알 수 있다
+
+`sDefaultContentInsetsApplier`는 `SystemBars`로부터의 `insets`을 적용하는 역할을 할거 같으며   
+`insets`은 View의 내용이 `SystemBars`에 의해 가려지지 않도록 주변에 여백을 제공하게 될 것이다.
+
+그 반대로 nul이면 아무런 `insets` 이 적용이 안될 것이라고 예상해볼 수 있다.
+
+#### ✅ 중간 정리
+
+- `WindowCompat.setDecorFitsSystemWindows(window, false)` 를 적용하면 꽉찬 화면을 사용할 수 있다.
+- Window에서 구현이 안된 코드들을
+  볼려면 [Android Code Search](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/policy/PhoneWindow.java;l=3983?q=public%20void%20setDecorFitsSystemWindows)
+  를 들어가서 찾으면 된다.
 
 ## CutOut
 
 ## 참고 자료
 
 ### 공식문서
+
 [Android-Developer](https://developer.android.com/reference/android/view/Window)
 
 ### 유튜브
+
 [[DroidKnights 2019 - Track 3]안명욱 - 안드로이드 윈도우 마스터 되기](https://www.youtube.com/watch?v=q6ZC4E4lAM8&t=170s&ab_channel=DroidKnights)
 
 ### 블로그
+
 [Android Window: Basic Concepts](https://medium.com/@MrAndroid/android-window-basic-concepts-a11d6fcaaf3f)    
 [Android Window A to Z](https://medium.com/@saqwzx88/android-window-a-to-z-bed9309ea98b)
 

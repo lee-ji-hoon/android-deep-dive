@@ -5,13 +5,10 @@ import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +19,7 @@ class MainActivity : AppCompatActivity() {
         super.onResume()
         val mainView = findViewById<ViewGroup>(R.id.main)
         Log.d(TAG, "window option ${mainView.fitsSystemWindows}")
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         mainView.post {
             val statusBarHeight = ViewCompat.getRootWindowInsets(mainView)?.getInsets(WindowInsetsCompat.Type.statusBars())?.top ?: 0
             val navigationBarHeight = ViewCompat.getRootWindowInsets(mainView)?.getInsets(WindowInsetsCompat.Type.navigationBars())?.bottom ?: 0
