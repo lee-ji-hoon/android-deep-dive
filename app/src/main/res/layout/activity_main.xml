@@ -7,58 +7,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="top|start"
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/tv_fullscreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="30dp"
+        android:text="Full Screen Mode Setting"
+        android:textSize="24dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
+    <RadioGroup
+        android:id="@+id/rg_fullScreen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fullscreen">
+
+        <RadioButton
+            android:id="@+id/rb_leanback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView01"
-            android:textSize="24sp" />
+            android:layout_marginHorizontal="5dp"
+            android:text="Leanback" />
 
-        <TextView
+        <RadioButton
+            android:id="@+id/rb_immersive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView02"
-            android:textSize="24sp" />
+            android:layout_marginHorizontal="5dp"
+            android:text="Immersive" />
 
-        <TextView
+        <RadioButton
+            android:id="@+id/rb_sticky_immersive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView03"
-            android:textSize="24sp" />
-    </LinearLayout>
+            android:layout_marginHorizontal="5dp"
+            android:text="StickyImmersive" />
+    </RadioGroup>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|start"
-        android:orientation="vertical"
-        app:layout_constraintBaseline_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView01"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView02"
-            android:textSize="24sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TextView03"
-            android:textSize="24sp" />
-    </LinearLayout>
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rg_fullScreen" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

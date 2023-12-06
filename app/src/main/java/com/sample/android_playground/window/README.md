@@ -86,7 +86,7 @@ public void setContentView(@LayoutRes int layoutResID){
         initViewTreeOwners();
         // AppCompatDelegate 에게 layout을 inflate 하는 것을 위임한다.
         getDelegate().setContentView(layoutResID);
-        }
+      }
 ```
 
 > setContentView는 3가지가 있지만, 결국 하나로 귀결되기 때문에 굳이 다루지는 않겠습니다.
@@ -261,13 +261,63 @@ PhoneWindow에 있을거 같았는데 진짜로 있다.
   볼려면 [Android Code Search](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/policy/PhoneWindow.java;l=3983?q=public%20void%20setDecorFitsSystemWindows)
   를 들어가서 찾으면 된다.
 
+### 🧾 전체화면 모드를 적용해보자.
+
+Android에서는 총 3가지 모드가 존재하며, 각 방식의 차이점은 사용자가 시스템 표시줄을 보게 할 것인가의 차이이다. 
+
+#### 🤔 leanback
+    사용자가 영상을 시청할때 같이 화면과 거의 상호작용이 없을 때 자주 사용하는 설정이다.  
+    시스템 표시줄을 다시 표시하기 위해서는 사용자는 화면 아무 곳이나 클릭하면 된다.
+
+<img src="image/leanback.gif" width="300"/>
+
+```kotlin
+private val leanbackFlags = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN 
+        or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+```
+
+#### 🤔 immersive
+    사용자가 화면을 탭할 때 네비게이션과 상태 바가 나타나게 합니다.
+    leanback에 비해 사용자와 많이 상호작용을 할 때 사용한다.
+
+<img src="image/immersive.gif" width="300"/>
+
+```kotlin
+private val immersiveFlags = (View.SYSTEM_UI_FLAG_IMMERSIVE
+            or View.SYSTEM_UI_FLAG_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+```
+
+> leanback/immersive 는 한 번이라도 탭을 하면 해당 모드가 해제 된다.
+
+#### 🤔 sticky immersive
+    네비게이션과 상태 바를 숨기지만,   
+    사용자가 화면의 가장자리를 스와이프할 때 잠깐 나타났다가 자동으로 다시 숨겨집니다.
+
+<img src="image/stickyimmersive.gif" width="300"/>
+
+```kotlin
+private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            or View.SYSTEM_UI_FLAG_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+```
+
+위 leanback / immersive 랑은 다르게 SystemBar 부분을 스와이프하면 일시적으로 표시하고 일정 시간 이후에 숨기는 특징이 있다.
+
+
+
+
+
 ## CutOut
 
 ## 참고 자료
 
 ### 공식문서
 
-[Android-Developer](https://developer.android.com/reference/android/view/Window)
+[Android-Developer-Window](https://developer.android.com/reference/android/view/Window)    
+[Android-Developer-FullScreen](https://developer.android.com/develop/ui/views/layout/immersive#EnableFullscreen) -> 이거 한글문서로 보면 다 deprecated 된걸로 안내함
 
 ### 유튜브
 
@@ -276,5 +326,6 @@ PhoneWindow에 있을거 같았는데 진짜로 있다.
 ### 블로그
 
 [Android Window: Basic Concepts](https://medium.com/@MrAndroid/android-window-basic-concepts-a11d6fcaaf3f)    
-[Android Window A to Z](https://medium.com/@saqwzx88/android-window-a-to-z-bed9309ea98b)
+[Android Window A to Z](https://medium.com/@saqwzx88/android-window-a-to-z-bed9309ea98b)  
+[Deep Dive In Android Full Screen](https://soda1127.github.io/deep-dive-in-android-full-screen-1/)
 
