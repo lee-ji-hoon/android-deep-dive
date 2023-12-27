@@ -365,7 +365,7 @@ private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 
 #### 🤔 leanback에 해당하는 값은 왜 Deprecated 됐을까? 
 
-이렇게 가능한데 그럼 Leanback은 `WindowInsetsController` 로 구현이 불가능해보이는데 왜 그런가 내 생각 및 공식문서 업데이트 내용은 아래와 같다.
+> Leanback은 `WindowInsetsController` 로 구현이 불가능해보이는데 왜 그런가 내 생각 및 공식문서 업데이트 내용은 아래와 같다.
 
 - `systemUiVisibility` 에서도 leanback은 Flag로 존재하지 않는다.
   - SYSTEM_UI_FLAG_IMMERSIVE_STICKY / SYSTEM_UI_FLAG_IMMERSIVE 는 존재하지만 / SYSTEM_UI_FLAG_LEANBACK 은 없다.
