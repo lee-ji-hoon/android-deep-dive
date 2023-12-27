@@ -261,7 +261,7 @@ PhoneWindow에 있을거 같았는데 진짜로 있다.
   볼려면 [Android Code Search](https://cs.android.com/android/platform/superproject/main/+/main:frameworks/base/core/java/com/android/internal/policy/PhoneWindow.java;l=3983?q=public%20void%20setDecorFitsSystemWindows)
   를 들어가서 찾으면 된다.
 
-### 🧾 전체화면 모드를 적용해보자.
+### 🧾 전체화면 모드를 적용해보자 - OS 30이하
 
 Android에서는 총 3가지 모드가 존재하며, 각 방식의 차이점은 사용자가 시스템 표시줄을 보게 할 것인가의 차이이다. 
 
@@ -285,8 +285,7 @@ private val leanbackFlags = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
 ```kotlin
 private val immersiveFlags = (View.SYSTEM_UI_FLAG_IMMERSIVE
             or View.SYSTEM_UI_FLAG_FULLSCREEN
-            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 ```
 
 > leanback/immersive 는 한 번이라도 탭을 하면 해당 모드가 해제 된다.
@@ -300,15 +299,53 @@ private val immersiveFlags = (View.SYSTEM_UI_FLAG_IMMERSIVE
 ```kotlin
 private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             or View.SYSTEM_UI_FLAG_FULLSCREEN
-            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 ```
 
 위 leanback / immersive 랑은 다르게 SystemBar 부분을 스와이프하면 일시적으로 표시하고 일정 시간 이후에 숨기는 특징이 있다.
 
+### 🧾 전체화면 모드를 적용해보자 - OS 31이상
 
+> WindowInsetsController를 사용해서 전체화면 모드를 적용 가능하다.
 
+#### 🤔 WindowInsetsController을 사용해서 systemUiVisibility 처럼 3가지 모드 구현이 가능할까?
 
+예전 글들을 보면 아래와 같이 구현하라고 한다.
+
+- `BEHAVIOR_SHOW_BARS_BY_TOUCH` : lean back
+- `BEHAVIOR_SHOW_BARS_BY_SWIPE` : immersive
+- `BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE` : sticky immersive
+
+하지만 실제로 보면 `BEHAVIOR_SHOW_BARS_BY_TOUCH` 과 `BEHAVIOR_SHOW_BARS_BY_SWIPE` 는 deprecated 됐다.
+
+![leanback_os12 .png](image/leanback_os12.png)
+
+내용을 보면 `BEHAVIOR_DEFAULT` 혹은 `BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE` 로 대체를 하라는데, 두 옵션은 아래와 같다.
+
+- `BEHAVIOR_DEFAULT` : 화면 가장자리 제스처 하면 SystemBars 보이게 됨 
+- `BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE` : 화면 가장자리 스와이프하면 SystemBars가 잠깐 보이고 사라짐 -> StickyImmersive
+
+요약하자면
+
+- `BEHAVIOR_DEFAULT` -> Immersive
+- `BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE` -> StickyImmersive
+
+#### 🤔 leanback에 해당하는 값은 왜 Deprecated 됐을까? 
+
+이렇게 가능한데 그럼 Leanback은 `WindowInsetsController` 로 구현이 불가능해보이는데 왜 그런가 내 생각 및 공식문서 업데이트 내용은 아래와 같다.
+
+- `systemUiVisibility` 에서도 leanback은 Flag로 존재하지 않는다.
+  - SYSTEM_UI_FLAG_IMMERSIVE_STICKY / SYSTEM_UI_FLAG_IMMERSIVE 는 존재하지만 / SYSTEM_UI_FLAG_LEANBACK 은 없다.
+  - Flag도 존재하지 않았으며, 다른 Flag들을 조합해서 사용했던 방법이라서 그리 중요시 여기지 않은거 같다 (뇌피셜)
+- [OS12 업데이트 내역](https://developer.android.com/about/versions/12/features#immersive-mode-improvements)을 보면 Immersive Mode에 더 쉽게 사용할 수 있게 동작을 개선하고 통합했음을 알 수 있다.
+  - 위 내용을 봤을 때 Leanback 동작을 없애고 Immersive로 통일을 하고자 나머지를 Deprecated을 건 것으로 보인다. 
+
+#### ✅ 정리 Window Full Screen Mode에는 3가지가 존재한다.
+
+- Immersive / Sticky Immersive / Leanback 
+- OS별로 지원하지 않는 Mode도 존재한다.
+  - OS12이상 : Immersive / Sticky Immersive
+  - OS12미만 : Immersive / Sticky Immersive / Leanback
 
 ## CutOut
 
@@ -316,16 +353,18 @@ private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 
 ### 공식문서
 
-[Android-Developer-Window](https://developer.android.com/reference/android/view/Window)    
-[Android-Developer-FullScreen](https://developer.android.com/develop/ui/views/layout/immersive#EnableFullscreen) -> 이거 한글문서로 보면 다 deprecated 된걸로 안내함
+- [Android-Developer-Window](https://developer.android.com/reference/android/view/Window)    
+- [Android-Developer-FullScreen](https://developer.android.com/develop/ui/views/layout/immersive#EnableFullscreen) -> 이거 한글문서로 보면 다 deprecated 된걸로 안내함  
+- [Android-Developer-Immersive](https://developer.android.com/training/system-ui/immersive)
+- [Android-Developer-Respond to UI visibility changes](https://developer.android.com/training/system-ui/visibility)
 
 ### 유튜브
 
-[[DroidKnights 2019 - Track 3]안명욱 - 안드로이드 윈도우 마스터 되기](https://www.youtube.com/watch?v=q6ZC4E4lAM8&t=170s&ab_channel=DroidKnights)
+- [[DroidKnights 2019 - Track 3]안명욱 - 안드로이드 윈도우 마스터 되기](https://www.youtube.com/watch?v=q6ZC4E4lAM8&t=170s&ab_channel=DroidKnights)
 
 ### 블로그
 
-[Android Window: Basic Concepts](https://medium.com/@MrAndroid/android-window-basic-concepts-a11d6fcaaf3f)    
-[Android Window A to Z](https://medium.com/@saqwzx88/android-window-a-to-z-bed9309ea98b)  
-[Deep Dive In Android Full Screen](https://soda1127.github.io/deep-dive-in-android-full-screen-1/)
+- [Android Window: Basic Concepts](https://medium.com/@MrAndroid/android-window-basic-concepts-a11d6fcaaf3f)    
+- [Android Window A to Z](https://medium.com/@saqwzx88/android-window-a-to-z-bed9309ea98b)  
+- [Deep Dive In Android Full Screen](https://soda1127.github.io/deep-dive-in-android-full-screen-1/)
 
