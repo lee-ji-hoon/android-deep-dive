@@ -1,3 +1,36 @@
+<!-- TOC -->
+* [Android Window에 대해 공부하기](#android-window에-대해-공부하기)
+  * [Window](#window)
+    * [🤔 우선 윈도우가 무엇인지부터 알고 가자.](#-우선-윈도우가-무엇인지부터-알고-가자)
+    * [🤔 Window와 Activity관계](#-window와-activity관계)
+    * [🤔 Layout Inspector로 확인하기](#-layout-inspector로-확인하기)
+      * [1. 🧾 Activity의 setContentView](#1--activity의-setcontentview)
+      * [2. 🧾 AppCompatDelegateImpl 의 setContentView](#2--appcompatdelegateimpl-의-setcontentview)
+      * [2-1. 🧾 AppCompatDelegateImpl 의 setContentView > ensureSubDecor](#2-1--appcompatdelegateimpl-의-setcontentview--ensuresubdecor)
+      * [2-2. 🧾 ensureSubDecor > createSubDecor - 1  테마 스타일 속성 탐색 및 설정](#2-2--ensuresubdecor--createsubdecor---1--테마-스타일-속성-탐색-및-설정)
+      * [2-2. 🧾 ensureSubDecor > createSubDecor - 2 subDecor Layout 설정](#2-2--ensuresubdecor--createsubdecor---2-subdecor-layout-설정)
+      * [2-3. 🧾 ensureSubDecor > createSubDecor - 3. ContentView의 자식뷰들 이동](#2-3--ensuresubdecor--createsubdecor---3-contentview의-자식뷰들-이동)
+      * [2-4. 🧾 ensureSubDecor > createSubDecor - 4. subDecor를 Window의 ContentView로 설정](#2-4--ensuresubdecor--createsubdecor---4-subdecor를-window의-contentview로-설정)
+      * [✅ 정리](#-정리)
+  * [StatusBar, Navigation 영역까지 그리기](#statusbar-navigation-영역까지-그리기)
+      * [🤔 WindowCompat.setDecorFitsSystemWindows(window, false) 간단하게만 파보자.](#-windowcompatsetdecorfitssystemwindowswindow-false-간단하게만-파보자)
+      * [🤔 그래도 구현부를 간단하게라도 볼 수 있는 방법이 없나?](#-그래도-구현부를-간단하게라도-볼-수-있는-방법이-없나)
+      * [✅ 중간 정리](#-중간-정리)
+    * [🧾 전체화면 모드를 적용해보자 - OS 30이하](#-전체화면-모드를-적용해보자---os-30이하)
+      * [🤔 leanback](#-leanback)
+      * [🤔 immersive](#-immersive)
+      * [🤔 sticky immersive](#-sticky-immersive)
+    * [🧾 전체화면 모드를 적용해보자 - OS 31이상](#-전체화면-모드를-적용해보자---os-31이상)
+      * [🤔 WindowInsetsController을 사용해서 systemUiVisibility 처럼 3가지 모드 구현이 가능할까?](#-windowinsetscontroller을-사용해서-systemuivisibility-처럼-3가지-모드-구현이-가능할까)
+      * [🤔 leanback에 해당하는 값은 왜 Deprecated 됐을까?](#-leanback에-해당하는-값은-왜-deprecated-됐을까-)
+      * [✅ 정리 Window Full Screen Mode에는 3가지가 존재한다.](#-정리-window-full-screen-mode에는-3가지가-존재한다)
+  * [CutOut](#cutout)
+  * [참고 자료](#참고-자료)
+    * [공식문서](#공식문서)
+    * [유튜브](#유튜브)
+    * [블로그](#블로그)
+<!-- TOC -->
+
 # Android Window에 대해 공부하기
 
 > 회사에서 최근에 버전에 따른 Keyboard, Window에 대한 이슈를 겪는데, edge to edge, cut out 이런 용어도 제대로 모르는 상태가 말이 안된다고 생각해서
