@@ -18,13 +18,16 @@ import androidx.core.view.isVisible
 
 class MainActivity : AppCompatActivity() {
 
-    private val leanbackFlags = (View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+    @Suppress("DEPRECATION")
+    private val leanbackFlags = (View.SYSTEM_UI_FLAG_FULLSCREEN
             or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
+    @Suppress("DEPRECATION")
     private val immersiveFlags = (View.SYSTEM_UI_FLAG_IMMERSIVE
             or View.SYSTEM_UI_FLAG_FULLSCREEN
             or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
+    @Suppress("DEPRECATION")
     private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
             or View.SYSTEM_UI_FLAG_FULLSCREEN
             or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
@@ -54,27 +57,11 @@ class MainActivity : AppCompatActivity() {
     private fun resetWindowSettings() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.insetsController?.run {
-                show(WindowInsets.Type.navigationBars() or WindowInsets.Type.statusBars())
+                show(WindowInsets.Type.systemBars())
                 systemBarsBehavior = WindowInsetsController.BEHAVIOR_DEFAULT
             }
         } else {
             window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_VISIBLE)
-        }
-    }
-
-    /**
-     * Immersive Mode는 네비게이션 바와 상태 바를 모두 숨기고,
-     * 사용자가 화면의 가장자리를 탭할 때만 나타나게 합니다.
-     */
-    @Suppress("DEPRECATION")
-    private fun enableImmersiveMode() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            window.insetsController?.run {
-                hide(WindowInsets.Type.navigationBars() or WindowInsets.Type.statusBars())
-                systemBarsBehavior = WindowInsetsController.BEHAVIOR_DEFAULT
-            }
-        } else {
-            window.decorView.systemUiVisibility = immersiveFlags
         }
     }
 
@@ -85,10 +72,24 @@ class MainActivity : AppCompatActivity() {
      * [WindowInsetsController.BEHAVIOR_DEFAULT] 은 기본 동작이 화면 가장자리를 터치하거나 제스처하면 보이게 되는데 Immersive랑 다를 것이 없다.
      * https://developer.android.com/about/versions/12/features#immersive-mode-improvements 해당 OS12 업데이트 내역을 보면 사용자에게 일관된 경험을 주기 위해서 제거한 것으로 보인다.
      */
-    @Suppress("DEPRECATION")
     private fun enableLeanBackMode() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-            window.decorView.systemUiVisibility = leanbackFlags
+            setSystemUiVisibilityWithDelay(leanbackFlags)
+        }
+    }
+
+    /**
+     * Immersive Mode는 네비게이션 바와 상태 바를 모두 숨기고,
+     * 사용자가 화면의 가장자리를 탭할 때만 나타나게 합니다.
+     */
+    private fun enableImmersiveMode() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            window.insetsController?.run {
+                hide(WindowInsets.Type.systemBars())
+                systemBarsBehavior = WindowInsetsController.BEHAVIOR_DEFAULT
+            }
+        } else {
+            window.decorView.systemUiVisibility = immersiveFlags
         }
     }
 
@@ -96,7 +97,6 @@ class MainActivity : AppCompatActivity() {
      * Sticky Immersive Mode는 네비게이션과 상태 바를 숨기지만,
      * 사용자가 화면의 가장자리를 스와이프할 때 잠깐 나타났다가 자동으로 다시 숨겨집니다.
      */
-    @Suppress("DEPRECATION")
     private fun enableStickyImmersiveMode() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             window.insetsController?.run {
@@ -104,9 +104,23 @@ class MainActivity : AppCompatActivity() {
                 systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
             }
         } else {
-            window.decorView.systemUiVisibility = immersiveSticky
+            setSystemUiVisibilityWithDelay(immersiveSticky)
         }
     }
+
+    /**
+     * [resetWindowSettings] 에서 `window.decorView.systemUiVisibility`를 [View.SYSTEM_UI_FLAG_VISIBLE] 로 초기화 중이다.
+     * 하지만 systemUiVisibility의 경우 비동기적으로 처리되기 때문에 연속적으로 호출 시 뒤에 systemUiVisibility 만 설정될 수 있다.
+     * 즉 [View.SYSTEM_UI_FLAG_VISIBLE] -> [immersiveSticky]로 호출 해도 실제로는 [immersiveSticky] 만 적용 될 수 있게 `postDelayed`를 사용
+     */
+    @Suppress("DEPRECATION")
+    private fun setSystemUiVisibilityWithDelay(flags: Int) {
+        window.decorView.postDelayed({
+            window.decorView.systemUiVisibility = flags
+        }, 1)
+    }
+
+
 
     private fun logWindowsSize() {
         val mainView = findViewById<ViewGroup>(R.id.main)
