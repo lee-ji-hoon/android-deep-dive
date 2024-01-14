@@ -1,60 +1,258 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:background="#EEEEEE">
 
-    <TextView
-        android:id="@+id/tv_fullscreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="Full Screen Mode Setting"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <RadioGroup
-        android:id="@+id/rg_fullScreen"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_fullscreen">
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guide_center"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintGuide_percent="0.5"/>
 
-        <RadioButton
-            android:id="@+id/rb_leanback"
+        <TextView
+            android:id="@+id/text_fullscreen_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="Leanback" />
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="FullScreen Mode"/>
 
-        <RadioButton
-            android:id="@+id/rb_immersive"
+        <RadioGroup
+            android:id="@+id/fullscreen_mode"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="Immersive" />
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/text_fullscreen_mode"
+            app:layout_constraintStart_toStartOf="parent">
 
-        <RadioButton
-            android:id="@+id/rb_sticky_immersive"
+            <RadioButton
+                android:id="@+id/fullscreen_mode_lean_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lean Back"/>
+
+            <RadioButton
+                android:id="@+id/fullscreen_mode_immersive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Immersive"/>
+
+            <RadioButton
+                android:id="@+id/fullscreen_mode_sticky_immersive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Sticky Immersive"/>
+
+            <RadioButton
+                android:id="@+id/fullscreen_mode_none"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="None"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_cutout_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:text="StickyImmersive" />
-    </RadioGroup>
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide_center"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="Cutout Mode"/>
 
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/black"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rg_fullScreen" />
+        <RadioGroup
+            android:id="@+id/cutout_mode"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/text_cutout_mode"
+            app:layout_constraintStart_toStartOf="@id/guide_center">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <RadioButton
+                android:id="@+id/cutout_mode_default"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Default"/>
+
+            <RadioButton
+                android:id="@+id/cutout_mode_short_edges"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Short Edges"/>
+
+            <RadioButton
+                android:id="@+id/cutout_mode_always"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Always"/>
+
+            <RadioButton
+                android:id="@+id/cutout_mode_never"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Never"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_fullscreen_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_mode"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="FullScreen Setting"/>
+
+        <CheckBox
+            android:id="@+id/fullscreen_setting_decor_fits_system_windows"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/text_fullscreen_setting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Decor Fits System Windows"/>
+
+        <CheckBox
+            android:id="@+id/cutout_setting_add_padding_safe_area"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="48dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_setting_decor_fits_system_windows"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Add Padding Safe Area"/>
+
+        <CheckBox
+            android:id="@+id/fullscreen_setting_hide_status_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/cutout_setting_add_padding_safe_area"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Hide Status Bar"/>
+
+        <CheckBox
+            android:id="@+id/fullscreen_setting_hide_navigation_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_setting_hide_status_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="Hide Navigation Bar"/>
+
+        <TextView
+            android:id="@+id/text_status_bar_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_setting_hide_navigation_bar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/guide_center"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="StatusBar\nMode"/>
+
+        <RadioGroup
+            android:id="@+id/status_bar_mode"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/text_status_bar_mode"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <RadioButton
+                android:id="@+id/status_bar_mode_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light"/>
+
+            <RadioButton
+                android:id="@+id/status_bar_mode_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Dark"/>
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_navigation_bar_mode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/fullscreen_setting_hide_navigation_bar"
+            app:layout_constraintStart_toStartOf="@id/guide_center"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:text="NavigationBar\nMode"/>
+
+        <RadioGroup
+            android:id="@+id/navigation_bar_mode"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="36dp"
+            android:layout_marginHorizontal="24dp"
+            app:layout_constraintTop_toBottomOf="@id/text_navigation_bar_mode"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@id/guide_center">
+
+            <RadioButton
+                android:id="@+id/navigation_bar_mode_light"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Light"/>
+
+            <RadioButton
+                android:id="@+id/navigation_bar_mode_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Dark"/>
+        </RadioGroup>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
