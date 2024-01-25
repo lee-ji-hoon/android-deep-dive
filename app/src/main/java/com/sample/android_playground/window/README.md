@@ -462,6 +462,13 @@ window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_
 
 위 추측 및 코드를 결론은 **View에 그려질때만 `layoutInDisplayCutoutMode` 을 갖고 와서 세팅**을 하기 때문에 **그려진 이후에 세팅을 한 것은 영향을 줄 수가 없다.** 라는 결론이 나왔다.
 
+#### ✅ 정리 Cutout 적용 방법
+
+- CutoutMode에는 3가지가 존재한다.
+- Cutout영역 까지 View를 그려주기 위해서는 `setDecorFitsSystemWindows` 를 false로 적용해야 한다.
+- Cutout을 적용하는 `layoutInDisplayCutoutMode`는 View의 라이프사이클 내에서 처리 해야한다.(onCreate ~ onResume)
+  - 테스트 코드를 보면 onCreate에서 처리하는 것이 가장 적합해 보인다.
+
 ## 참고 자료
 
 ### 공식문서
