@@ -10,8 +10,8 @@ data class WindowParams(
     val cutoutMode: CutoutMode = CutoutMode.DEFAULT,
     val decorFitsSystemWindows: Boolean = true,
     val addPaddingSafeArea: Boolean = false,
-    val hideStatusBar: Boolean = true,
-    val hideNavigationBar: Boolean = true,
+    val hideStatusBar: Boolean = false,
+    val hideNavigationBar: Boolean = false,
     val isLightStatusBar: Boolean = true,
     val isLightNavigationBar: Boolean = true,
 ) {
@@ -59,11 +59,11 @@ data class WindowParams(
         }
 
         fun getHideStatusBar(intent: Intent?): Boolean {
-            return intent?.getBooleanExtra(KEY_HIDE_STATUS_BAR, true) ?: true
+            return intent?.getBooleanExtra(KEY_HIDE_STATUS_BAR, false) ?: false
         }
 
         fun getHideNavigationBar(intent: Intent?): Boolean {
-            return intent?.getBooleanExtra(KEY_HIDE_NAVIGATION_BAR, true) ?: true
+            return intent?.getBooleanExtra(KEY_HIDE_NAVIGATION_BAR, false) ?: false
         }
 
         fun isLightStatusBar(intent: Intent?): Boolean {

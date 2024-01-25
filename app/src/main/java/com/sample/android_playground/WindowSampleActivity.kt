@@ -221,7 +221,11 @@ class WindowSampleActivity : AppCompatActivity() {
                 } else {
                     WindowInsetsController.BEHAVIOR_SHOW_BARS_BY_TOUCH
                 }
-            window.insetsController?.show(WindowInsets.Type.systemBars())
+            if (getFullScreenMode() == FullScreenMode.NONE) {
+                window.insetsController?.show(WindowInsets.Type.systemBars())
+            } else {
+                window.insetsController?.hide(WindowInsets.Type.systemBars())
+            }
         } else {
             window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE or
                     lightStatusBarFlag or
@@ -288,7 +292,7 @@ class WindowSampleActivity : AppCompatActivity() {
         } else {
             systemModeFlag = 0
         }
-        enableSystemBarSetting()
+        disableSystemBarSetting()
         refreshFullScreenMode()
     }
 
@@ -312,7 +316,7 @@ class WindowSampleActivity : AppCompatActivity() {
         } else {
             systemModeFlag = View.SYSTEM_UI_FLAG_IMMERSIVE
         }
-        enableSystemBarSetting()
+        disableSystemBarSetting()
         refreshFullScreenMode()
     }
 
@@ -332,13 +336,13 @@ class WindowSampleActivity : AppCompatActivity() {
         } else {
             systemModeFlag = View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
         }
-        enableSystemBarSetting()
+        disableSystemBarSetting()
         refreshFullScreenMode()
     }
 
     private fun enableFullscreenModeNone() {
+        enableSystemBarSetting()
         resetFullScreenMode()
-        disableSystemBarSetting()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             insetsType = WindowInsets.Type.systemBars().inv()
@@ -350,15 +354,13 @@ class WindowSampleActivity : AppCompatActivity() {
 
     private fun enableSystemBarSetting() {
         binding.fullscreenSettingHideNavigationBar.isEnabled = true
-        binding.fullscreenSettingHideNavigationBar.isChecked = true
         binding.fullscreenSettingHideStatusBar.isEnabled = true
-        binding.fullscreenSettingHideStatusBar.isChecked = true
     }
 
     private fun disableSystemBarSetting() {
         binding.fullscreenSettingHideNavigationBar.isEnabled = false
-        binding.fullscreenSettingHideNavigationBar.isChecked = false
         binding.fullscreenSettingHideStatusBar.isEnabled = false
+        binding.fullscreenSettingHideNavigationBar.isChecked = false
         binding.fullscreenSettingHideStatusBar.isChecked = false
     }
 
@@ -392,8 +394,6 @@ class WindowSampleActivity : AppCompatActivity() {
      * 그래서 Activity 를 재실행하는 방법으로 테스트
      */
     private fun restartWindowActivity() {
-        finish()
-
         val param = WindowParams(
             fullScreenMode = getFullScreenMode(),
             cutoutMode = getCutoutMode(),
