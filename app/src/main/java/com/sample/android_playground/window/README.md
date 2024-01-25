@@ -373,7 +373,7 @@ private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 - [OS12 업데이트 내역](https://developer.android.com/about/versions/12/features#immersive-mode-improvements)을 보면 Immersive Mode에 더 쉽게 사용할 수 있게 동작을 개선하고 통합했음을 알 수 있다.
   - 위 내용을 봤을 때 Leanback 동작을 없애고 Immersive로 통일을 하고자 나머지를 Deprecated을 건 것으로 보인다. 
 
-#### ✅ 정리 Window Full Screen Mode에는 3가지가 존재한다.
+#### ✅ 정리 Window Full Screen Mode에는 3가지가 존재한다.  
 
 - Immersive / Sticky Immersive / Leanback 
 - OS별로 지원하지 않는 Mode도 존재한다.
@@ -381,6 +381,86 @@ private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
   - OS12미만 : Immersive / Sticky Immersive / Leanback
 
 ## CutOut
+
+> Display Cutout 일부 기기에서 디스플레이 표면으로 확장되는 영역이며, Edge to Edge 경험을 가능하게 해줍니다.    
+> Android 9(API 28) 이상을 실행하는 기기라면 공식적으로 Display Cutout을 지원 하고 있습니다. 하위 버전은 [DisplayCutoutCompat](https://developer.android.com/reference/androidx/core/view/DisplayCutoutCompat?hl=ko) 참고
+
+### 🧾앱에서 Coutout을 처리하는 방법
+
+> Cotout 영역과 내용이 겹치지 않게 하려면, 일반적으로 StatusBar와 Navigation Bar와 겹치지 않도록 하는 것으로 충분하다.
+
+- `WindowInsets.getDisplayCutout()`을 사용하여 Cutou에 대한 Safe Insets를 포함하는 DisplayCutout 객체를 찾는다.
+- Cutout과 내용이 겹치는지 확인하고 필요한 경우 위치를 조정할 수 있다.
+- `layoutInDisplayCutoutMode`을 설정해서 어떻게 그릴지 제어할 수 있다.
+
+#### 🤔어떤 옵션이 있고, 어떻게 적용할까?
+
+2가지 방식이 존재하는데 우선 프로그래밍 방식은 아래와 같다.
+
+| 옵션                                   | 설명                                                         |
+|----------------------------------------|--------------------------------------------------------------|
+| `LAYOUT_IN_DISPLAY_CUTOUT_MODE_DEFAULT` | 세로 모드에서 표시될 때 내용이 컷아웃 영역으로 렌더링되지만, 가로 모드에서 표시될 때 내용은 레터박스로 표시됩니다. |
+| `LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES` | 세로 및 가로 모드에서 내용이 컷아웃 영역으로 렌더링됩니다.   |
+| `LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER`     | 내용이 절대 컷아웃 영역으로 렌더링되지 않습니다.            |
+
+XML을 통해서 Activity 타겟으로 Style 지정하여 설정할 수도 있다.
+
+```xml
+<style name="ActivityTheme">
+  <item name="android:windowLayoutInDisplayCutoutMode">
+    shortEdges <!-- default, shortEdges, or never -->
+  </item>
+</style>
+```
+
+#### 🤔 Default Behavior
+
+- 노치가 존재하는 장치의 경우 사용자의 콘텐츠는 노치 아래 영역에 표시 된다.
+- 가로 모드 또는 전체화면 모드에서는, 앱 Window가 레터박스(검은색 박스) 처리 된다.
+
+### 🧾Coutout 적용 결과
+
+<img src="image/cutout_default.png" alt=""/>
+
+기본적으로 cutout의 기본값인 default라면 레터박스가 생기고 해당 영역을 사용할 수 없다.
+
+
+<img src="image/cutout_edge.png" alt=""/>
+
+Cutout Mode를 Short Edges로 하거나 Always로 할 경우 Cutout 영역의 레터박스가 사라지고 View처럼 사용이 가능하다.
+
+> 위 사진에서 Cutout 영역까지 보여지게 할려면 아래와 같은 속성도 추가로 필요하다.
+
+1. `setDecorFitsSystemWindows` 를 false로 해서 DecorView가 SystemWindow에 Fit되지 않게 수정을 한다.
+2. (Sticky)Immersive 혹은 LeanBack을 적용해서 SystemBar가 사라지게 한다.
+
+이런 형태로 구현을 하면 Cutout영역 + 전체화면이 대응이 가능하다.
+
+#### 🤔 근데 왜 Cutout을 onResume 이후에 호출하면 적용이 안될까? 
+
+> 처음에는 CutoutMode를 Activity를 startActivity하지 않고, 그냥 `layoutInDisplayCutoutMode`만 변경을 했는데 적용이 안돼서 그 이유를 추측해서 남겨본다. 
+
+추가적으로 예제 코드를 보면 CutoutMode를 변경할 때 startActivity 하고 있는데 그 이유는 아래와 같다.
+
+```kotlin
+window.attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES
+```
+
+이런식으로 세팅을 하게 되는데 View가 그려지기 전에 세팅을 한 것을 따로 observe하지 않기에 값이 변경이 돼도 UI에 변경이 이뤄지지 않는 것이다.
+
+그래서 Android Open Source의 DisplayCutoutTestActivity 코드를 보면 아래와 같다.
+
+![img.png](image/cutout_test_acs.png)
+
+`onCreate`에서 layoutInDisplayCutoutMode 모드 값을 설정 중이다.
+
+그러면 이 값을 어디서 사용을 하고 있는지 추적을 해보고자 한다. 
+
+![img.png](image/cutout_why01.png)  
+
+![img.png](image/cutout_why02.png)
+
+위 추측 및 코드를 결론은 **View에 그려질때만 `layoutInDisplayCutoutMode` 을 갖고 와서 세팅**을 하기 때문에 **그려진 이후에 세팅을 한 것은 영향을 줄 수가 없다.** 라는 결론이 나왔다.
 
 ## 참고 자료
 
@@ -390,6 +470,7 @@ private val immersiveSticky = (View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
 - [Android-Developer-FullScreen](https://developer.android.com/develop/ui/views/layout/immersive#EnableFullscreen) -> 이거 한글문서로 보면 다 deprecated 된걸로 안내함  
 - [Android-Developer-Immersive](https://developer.android.com/training/system-ui/immersive)
 - [Android-Developer-Respond to UI visibility changes](https://developer.android.com/training/system-ui/visibility)
+- [Android-Developer-Cutouts](https://developer.android.com/develop/ui/views/layout/display-cutout)
 
 ### 유튜브
 
