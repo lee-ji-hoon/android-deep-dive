@@ -70,18 +70,18 @@ class WindowSampleActivity : AppCompatActivity() {
     }
 
     private fun setUpFullScreenMode(fullScreenMode: FullScreenMode) {
-        binding.fullscreenModeLeanBack.isEnabled = Build.VERSION.SDK_INT < Build.VERSION_CODES.R
+        binding.fullscreenModeLeanback.isEnabled = Build.VERSION.SDK_INT < Build.VERSION_CODES.R
 
         binding.fullscreenMode.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.fullscreen_mode_lean_back -> enableFullscreenModeLeanBack()
+                R.id.fullscreen_mode_leanback -> enableFullscreenModeLeanBack()
                 R.id.fullscreen_mode_immersive -> enableFullscreenModeImmersive()
                 R.id.fullscreen_mode_sticky_immersive -> enableFullscreenModeStickyImmersive()
                 R.id.fullscreen_mode_none -> enableFullscreenModeNone()
             }
         }
         val fullScreenModeId = when (fullScreenMode) {
-            FullScreenMode.LEAN_BACK -> R.id.fullscreen_mode_lean_back
+            FullScreenMode.LEAN_BACK -> R.id.fullscreen_mode_leanback
             FullScreenMode.IMMERSIVE -> R.id.fullscreen_mode_immersive
             FullScreenMode.STICKY_IMMERSIVE -> R.id.fullscreen_mode_sticky_immersive
             FullScreenMode.NONE -> R.id.fullscreen_mode_none
@@ -373,7 +373,7 @@ class WindowSampleActivity : AppCompatActivity() {
 
     private fun getFullScreenMode(): FullScreenMode {
         return when {
-            binding.fullscreenModeLeanBack.isChecked -> FullScreenMode.LEAN_BACK
+            binding.fullscreenModeLeanback.isChecked -> FullScreenMode.LEAN_BACK
             binding.fullscreenModeImmersive.isChecked -> FullScreenMode.IMMERSIVE
             binding.fullscreenModeStickyImmersive.isChecked -> FullScreenMode.STICKY_IMMERSIVE
             else -> FullScreenMode.NONE

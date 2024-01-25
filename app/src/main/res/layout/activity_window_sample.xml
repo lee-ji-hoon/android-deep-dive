@@ -42,10 +42,10 @@
             app:layout_constraintTop_toBottomOf="@id/text_fullscreen_mode">
 
             <RadioButton
-                android:id="@+id/fullscreen_mode_lean_back"
+                android:id="@+id/fullscreen_mode_leanback"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Lean Back" />
+                android:text="Leanback" />
 
             <RadioButton
                 android:id="@+id/fullscreen_mode_immersive"
