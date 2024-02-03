@@ -1,8 +1,7 @@
-package com.sample.playground
+package com.sample.feature.window
 
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
-import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -13,10 +12,7 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.updatePadding
-import com.sample.playground.databinding.ActivityWindowSampleBinding
-import com.sample.playground.window.CutoutMode
-import com.sample.playground.window.FullScreenMode
-import com.sample.playground.window.WindowParams
+import com.sample.feature.window.databinding.ActivityWindowSampleBinding
 import kotlin.math.max
 
 class WindowSampleActivity : AppCompatActivity() {
@@ -580,8 +576,8 @@ class WindowSampleActivity : AppCompatActivity() {
             refreshFullScreenMode()
         }
     }
-}
 
-private fun isVersionAtLeastP(): Boolean {
-    return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    private fun isVersionAtLeastP(): Boolean {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+    }
 }

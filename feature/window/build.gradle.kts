@@ -6,6 +6,10 @@ plugins {
 
 android {
     namespace = "com.sample.feature.window"
+
+    buildFeatures {
+        viewBinding = true
+    }
 }
 
 dependencies {

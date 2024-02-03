@@ -23,7 +23,7 @@
         </activity>
 
         <activity
-            android:name=".WindowSampleActivity"
+            android:name="com.sample.feature.window.WindowSampleActivity"
             android:exported="true">
         </activity>
     </application>

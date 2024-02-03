@@ -2,9 +2,9 @@ package com.sample.playground
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import com.sample.playground.databinding.ActivityMainBinding
+import com.sample.feature.window.WindowSampleActivity
 
 class MainActivity : AppCompatActivity() {
 

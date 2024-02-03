@@ -1,6 +1,5 @@
-package com.sample.playground.window
+package com.sample.feature.window
 
-import com.sample.playground.WindowSampleActivity
 import android.content.Context
 import android.content.Intent
 

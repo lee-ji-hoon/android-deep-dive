@@ -21,7 +21,7 @@ android {
 }
 
 dependencies {
-//    implementation(project(":feature:window"))
+    implementation(project(":feature:window"))
 
     implementation(libs.androidx.compose.activity)
     implementation(libs.androidx.appcompat)
