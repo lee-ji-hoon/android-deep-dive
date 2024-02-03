@@ -3,7 +3,6 @@ package com.sample.playground.window
 import com.sample.playground.WindowSampleActivity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 
 data class WindowParams(
     val fullScreenMode: FullScreenMode = FullScreenMode.IMMERSIVE,

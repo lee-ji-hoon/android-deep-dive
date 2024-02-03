@@ -18,7 +18,6 @@ import com.sample.playground.window.CutoutMode
 import com.sample.playground.window.FullScreenMode
 import com.sample.playground.window.WindowParams
 import kotlin.math.max
-import com.google.android.material.R as MaterialR
 
 class WindowSampleActivity : AppCompatActivity() {
 
@@ -541,7 +540,7 @@ class WindowSampleActivity : AppCompatActivity() {
     private fun enableLightStatusBarMode(isLight: Boolean) {
         window.statusBarColor = when (isLight) {
             true -> Color.WHITE
-            false -> getColor(MaterialR.color.m3_sys_color_light_primary)
+            false -> getColor(com.google.android.material.R.color.m3_sys_color_light_primary)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
