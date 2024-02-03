@@ -1,6 +1,8 @@
 package com.sample.android_playground
 
 import android.annotation.SuppressLint
+import android.app.ActivityOptions
+import android.content.res.Configuration
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
@@ -54,6 +56,10 @@ class WindowSampleActivity : AppCompatActivity() {
         setUpIsLightStatusBar(param.isLightStatusBar)
         setUpIsLightNavigationBar(param.isLightNavigationBar)
         setUpFullScreenMode(param.fullScreenMode)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
     }
 
     private fun setUpInsetsType() {
@@ -405,7 +411,8 @@ class WindowSampleActivity : AppCompatActivity() {
             isLightNavigationBar = binding.navigationBarModeLight.isChecked,
         )
         val intent = param.buildIntent(this)
-        startActivity(intent)
+        val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
+        startActivity(intent, options.toBundle())
     }
 
     /**
