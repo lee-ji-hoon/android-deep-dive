@@ -1,6 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":feature:window")
 
 
 pluginManagement {
@@ -21,5 +20,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-playground"
 include(":app")
-include(":feature")
+include(":feature:window")
  

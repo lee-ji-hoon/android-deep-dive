@@ -1,6 +1,6 @@
 plugins {
-    id("playground.android.application.compose")
-    id("playground.android.application")
+    id("playground.android.library")
+    id("playground.android.library.compose")
     id("playground.android.hilt")
 }
 

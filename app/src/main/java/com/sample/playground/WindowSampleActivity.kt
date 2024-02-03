@@ -57,10 +57,6 @@ class WindowSampleActivity : AppCompatActivity() {
         setUpFullScreenMode(param.fullScreenMode)
     }
 
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-    }
-
     private fun setUpInsetsType() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             systemBarsBehavior =
