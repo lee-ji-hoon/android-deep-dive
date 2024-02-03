@@ -64,7 +64,12 @@ private val playgroundItems = listOf(
         name = "Window",
         description = "Cutout, Immersive, SystemBars에 대한 예제입니다.",
         navigationRoute = PlaygroundNavigation.Window
-    )
+    ),
+    /*PlaygroundItem(
+        name = "Layout",
+        description = "Layout에 대한 예제입니다.",
+        navigationRoute = PlaygroundNavigation.Layout
+    ),*/
 )
 
 data class PlaygroundItem(

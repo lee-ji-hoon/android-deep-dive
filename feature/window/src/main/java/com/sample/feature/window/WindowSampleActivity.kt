@@ -401,6 +401,7 @@ class WindowSampleActivity : AppCompatActivity() {
             isLightStatusBar = binding.statusBarModeLight.isChecked,
             isLightNavigationBar = binding.navigationBarModeLight.isChecked,
         )
+        finish()
         val intent = param.buildIntent(this)
         val options = ActivityOptions.makeCustomAnimation(this, 0, 0)
         startActivity(intent, options.toBundle())
