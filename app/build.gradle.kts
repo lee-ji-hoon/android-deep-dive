@@ -1,49 +1,32 @@
+import com.sample.android_playground.convention.ProjectConfigurations
+
 plugins {
-    alias(libs.plugins.androidApplication)
-    alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("android_playground.android.application.compose")
+    id("android_playground.android.application")
+    id("android_playground.android.hilt")
 }
 
 android {
     namespace = "com.sample.android_playground"
-    compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.sample.android_playground"
-        minSdk = 24
-        targetSdk = 34
-        versionCode = 1
-        versionName = "1.0"
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        applicationId = ProjectConfigurations.applicationId
+        versionCode = ProjectConfigurations.versionCode
+        versionName = ProjectConfigurations.versionName
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
-    }
     buildFeatures {
         viewBinding = true
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.compose.activity)
     implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.material)
-    implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.window)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.hilt.navigation.compose)
+
 }
