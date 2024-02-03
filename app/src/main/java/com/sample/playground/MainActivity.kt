@@ -2,17 +2,21 @@ package com.sample.playground
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import com.sample.playground.databinding.ActivityMainBinding
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
 import com.sample.feature.window.WindowSampleActivity
+import com.sample.playground.navigation.PlaygroundMainScreen
+import com.sample.playground.navigation.PlaygroundNavigation
 
-class MainActivity : AppCompatActivity() {
-
-    private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        // TODO 우선 Window로 바로 보내는데 Compose Navigation 도입해두기
-        startActivity(Intent(this, WindowSampleActivity::class.java))
+        setContent {
+            MaterialTheme {
+                PlaygroundNavigation()
+            }
+        }
     }
 }
