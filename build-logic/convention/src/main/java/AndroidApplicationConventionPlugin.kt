@@ -2,10 +2,10 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import com.sample.android_playground.convention.ProjectConfigurations
-import com.sample.android_playground.convention.configureKotlinAndroid
-import com.sample.android_playground.convention.findPluginId
-import com.sample.android_playground.convention.libs
+import com.sample.playground.convention.ProjectConfigurations
+import com.sample.playground.convention.configureKotlinAndroid
+import com.sample.playground.convention.findPluginId
+import com.sample.playground.convention.libs
 
 @Suppress("UNUSED")
 class AndroidApplicationConventionPlugin : Plugin<Project> {

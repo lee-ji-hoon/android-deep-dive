@@ -1,9 +1,9 @@
-package com.sample.android_playground.convention
+package com.sample.playground.convention
 
 import org.gradle.api.JavaVersion
 
 object ProjectConfigurations {
-    const val applicationId = "com.sample.android_playground"
+    const val applicationId = "com.sample.playground"
     const val compileSdk = 34
     const val targetSdk = 34
     const val minSdk = 24

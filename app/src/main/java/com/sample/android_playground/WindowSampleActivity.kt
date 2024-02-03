@@ -1,4 +1,4 @@
-package com.sample.android_playground
+package com.sample.playground
 
 import android.annotation.SuppressLint
 import android.app.ActivityOptions
@@ -13,10 +13,10 @@ import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.core.view.updatePadding
-import com.sample.android_playground.databinding.ActivityWindowSampleBinding
-import com.sample.android_playground.window.CutoutMode
-import com.sample.android_playground.window.FullScreenMode
-import com.sample.android_playground.window.WindowParams
+import com.sample.playground.databinding.ActivityWindowSampleBinding
+import com.sample.playground.window.CutoutMode
+import com.sample.playground.window.FullScreenMode
+import com.sample.playground.window.WindowParams
 import kotlin.math.max
 import com.google.android.material.R as MaterialR
 

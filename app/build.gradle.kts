@@ -1,13 +1,13 @@
-import com.sample.android_playground.convention.ProjectConfigurations
+import com.sample.playground.convention.ProjectConfigurations
 
 plugins {
-    id("android_playground.android.application.compose")
-    id("android_playground.android.application")
-    id("android_playground.android.hilt")
+    id("playground.android.application.compose")
+    id("playground.android.application")
+    id("playground.android.hilt")
 }
 
 android {
-    namespace = "com.sample.android_playground"
+    namespace = "com.sample.playground"
 
     defaultConfig {
         applicationId = ProjectConfigurations.applicationId
@@ -21,6 +21,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:window"))
+
     implementation(libs.androidx.compose.activity)
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.core.ktx)

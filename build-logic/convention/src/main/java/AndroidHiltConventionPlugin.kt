@@ -1,8 +1,8 @@
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
-import com.sample.android_playground.convention.findPluginId
-import com.sample.android_playground.convention.libs
+import com.sample.playground.convention.findPluginId
+import com.sample.playground.convention.libs
 
 @Suppress("UNUSED")
 class AndroidHiltConventionPlugin : Plugin<Project> {

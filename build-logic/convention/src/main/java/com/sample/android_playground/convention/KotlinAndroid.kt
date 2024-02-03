@@ -1,4 +1,4 @@
-package com.sample.android_playground.convention
+package com.sample.playground.convention
 
 import com.android.build.api.dsl.CommonExtension
 import org.gradle.api.Project

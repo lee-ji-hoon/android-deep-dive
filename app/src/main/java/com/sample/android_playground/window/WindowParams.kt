@@ -1,6 +1,6 @@
-package com.sample.android_playground.window
+package com.sample.playground.window
 
-import com.sample.android_playground.WindowSampleActivity
+import com.sample.playground.WindowSampleActivity
 import android.content.Context
 import android.content.Intent
 import android.util.Log

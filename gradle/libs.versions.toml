@@ -29,6 +29,9 @@ coil = "2.4.0"
 
 # etc
 dagger = "2.48"
+junit = "4.13.2"
+junitVersion = "1.1.5"
+espressoCore = "3.5.1"
 
 [libraries]
 # Compose
@@ -84,6 +87,9 @@ ksp-gradlePlugin = { group = "com.google.devtools.ksp", name = "com.google.devto
 # etc
 material = { group = "com.google.android.material", name = "material", version.ref = "material3" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidStudioGradlePlugin" }

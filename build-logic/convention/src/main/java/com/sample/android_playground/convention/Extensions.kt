@@ -1,4 +1,4 @@
-package com.sample.android_playground.convention
+package com.sample.playground.convention
 
 import org.gradle.api.Project
 import org.gradle.api.artifacts.VersionCatalog

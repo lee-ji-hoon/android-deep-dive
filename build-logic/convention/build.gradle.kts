@@ -4,7 +4,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.sample.android_playground.buildlogic"
+group = "com.sample.playground.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17
@@ -26,23 +26,23 @@ dependencies {
 gradlePlugin {
     plugins {
         register("androidApplicationCompose") {
-            id = "android_playground.android.application.compose"
+            id = "playground.android.application.compose"
             implementationClass = "AndroidApplicationComposeConventionPlugin"
         }
         register("androidApplication") {
-            id = "android_playground.android.application"
+            id = "playground.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
         register("androidHilt") {
-            id = "android_playground.android.hilt"
+            id = "playground.android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
         }
         register("androidLibrary") {
-            id = "android_playground.android.library"
+            id = "playground.android.library"
             implementationClass = "AndroidLibraryConventionPlugin"
         }
         register("androidLibraryCompose") {
-            id = "android_playground.android.library.compose"
+            id = "playground.android.library.compose"
             implementationClass = "AndroidLibraryComposeConventionPlugin"
         }
     }
