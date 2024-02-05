@@ -3,8 +3,6 @@ package com.sample.playground.navigation
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -14,6 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sample.feature.compose_layout.SampleScreen
 import com.sample.feature.window.WindowSampleActivity
 
 @Composable
@@ -45,9 +44,7 @@ fun PlaygroundNavigation() {
         }
 
         composable(route = PlaygroundNavigation.Layout.route) {
-            Box(modifier = Modifier.fillMaxSize()) {
-
-            }
+            SampleScreen()
         }
     }
 }

@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-
-
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -21,4 +19,4 @@ dependencyResolutionManagement {
 rootProject.name = "android-playground"
 include(":app")
 include(":feature:window")
- 
+include(":feature:compose-layout")

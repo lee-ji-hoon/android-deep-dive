@@ -22,6 +22,7 @@ android {
 
 dependencies {
     implementation(project(":feature:window"))
+    implementation(project(":feature:compose-layout"))
 
     implementation(libs.androidx.compose.activity)
     implementation(libs.androidx.appcompat)
