@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sample.feature.compose_layout.SampleScreen
+import com.sample.feature.compose_layout.LayoutSampleScreen
 import com.sample.feature.window.WindowSampleActivity
 
 @Composable
@@ -44,7 +44,7 @@ fun PlaygroundNavigation() {
         }
 
         composable(route = PlaygroundNavigation.Layout.route) {
-            SampleScreen()
+            LayoutSampleScreen()
         }
     }
 }

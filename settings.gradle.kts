@@ -18,5 +18,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "android-playground"
 include(":app")
+include(":base")
 include(":feature:window")
 include(":feature:compose-layout")
