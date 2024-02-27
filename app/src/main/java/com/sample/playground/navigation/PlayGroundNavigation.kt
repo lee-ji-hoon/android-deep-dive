@@ -9,9 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sample.feature.compose_layout.LayoutSampleModifyColumn
+import com.sample.feature.compose_layout.LayoutSampleModifyGrid
+import com.sample.feature.compose_layout.LayoutSampleModifyRow
 import com.sample.feature.compose_layout.LayoutSampleScreen
 import com.sample.feature.window.WindowSampleActivity
 
@@ -43,9 +47,34 @@ fun PlaygroundNavigation() {
             }
         }
 
-        composable(route = PlaygroundNavigation.Layout.route) {
-            LayoutSampleScreen()
+        layoutSampleGraph(navController::navigate)
+    }
+}
+
+fun NavGraphBuilder.layoutSampleGraph(onNavigate: (route: String) -> Unit) {
+    composable(
+        route = "${PlaygroundNavigation.Layout}"
+    ) {
+        LayoutSampleScreen{
+            onNavigate("${PlaygroundNavigation.Layout}/$it")
         }
+    }
+    composable(
+        route = "${PlaygroundNavigation.Layout}/row"
+    ) {
+        LayoutSampleModifyRow()
+    }
+
+    composable(
+        route = "${PlaygroundNavigation.Layout}/column"
+    ) {
+        LayoutSampleModifyColumn()
+    }
+
+    composable(
+        route = "${PlaygroundNavigation.Layout}/grid"
+    ) {
+        LayoutSampleModifyGrid()
     }
 }
 

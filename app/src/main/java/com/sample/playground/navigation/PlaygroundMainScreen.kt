@@ -15,7 +15,7 @@ fun PlaygroundMainScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        playgroundItems.forEach {
+        playGroundStates.forEach {
             PlaygroundItem(
                 name = it.name,
                 description = it.description,
@@ -26,21 +26,29 @@ fun PlaygroundMainScreen(
     }
 }
 
-private val playgroundItems = listOf(
-    PlaygroundItem(
+private val playGroundStates = listOf(
+    PlayGroundState(
         name = "Window",
         description = "Cutout, Immersive, SystemBars에 대한 예제입니다.",
         navigationRoute = PlaygroundNavigation.Window
     ),
-    PlaygroundItem(
+    PlayGroundState(
         name = "Layout",
         description = "Layout에 대한 예제입니다.",
-        navigationRoute = PlaygroundNavigation.Layout
+        navigationRoute = PlaygroundNavigation.Layout,
+        subItems = listOf(
+            PlayGroundState(
+                name = "Layout/",
+                description = "Custom Layout Row 예제",
+                navigationRoute = PlaygroundNavigation.Layout,
+            )
+        )
     ),
 )
 
-data class PlaygroundItem(
+data class PlayGroundState(
     val name: String,
     val description: String,
-    val navigationRoute: PlaygroundNavigation
+    val navigationRoute: PlaygroundNavigation,
+    val subItems: List<PlayGroundState> = emptyList()
 )
