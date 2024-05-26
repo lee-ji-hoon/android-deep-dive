@@ -23,6 +23,7 @@ android {
 dependencies {
     implementation(project(":feature:window"))
     implementation(project(":feature:compose-layout"))
+    implementation(project(":feature:inset-animation"))
     implementation(project(":base"))
 
     implementation(libs.androidx.compose.activity)

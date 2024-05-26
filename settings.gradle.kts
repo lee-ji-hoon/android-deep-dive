@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:inset-animation")
+
+
 pluginManagement {
     includeBuild("build-logic")
     repositories {

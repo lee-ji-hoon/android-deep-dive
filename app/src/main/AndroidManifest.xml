@@ -26,6 +26,11 @@
             android:name="com.sample.feature.window.WindowSampleActivity"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name="com.sample.feature.inset_animation.InsetAnimationSampleActivity"
+            android:exported="true">
+        </activity>
     </application>
 
 </manifest>

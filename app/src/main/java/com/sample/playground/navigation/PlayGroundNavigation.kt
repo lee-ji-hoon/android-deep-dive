@@ -17,6 +17,7 @@ import com.sample.feature.compose_layout.LayoutSampleModifyColumn
 import com.sample.feature.compose_layout.LayoutSampleModifyGrid
 import com.sample.feature.compose_layout.LayoutSampleModifyRow
 import com.sample.feature.compose_layout.LayoutSampleScreen
+import com.sample.feature.inset_animation.InsetAnimationSampleActivity
 import com.sample.feature.window.WindowSampleActivity
 
 @Composable
@@ -42,6 +43,15 @@ fun PlaygroundNavigation() {
             Box(modifier = Modifier.fillMaxSize()) {
                 LaunchedEffect(Unit) {
                     val intent = Intent(context, WindowSampleActivity::class.java)
+                    startWindowActivity.launch(intent)
+                }
+            }
+        }
+
+        composable(route = PlaygroundNavigation.InsetAnimation.route) {
+            Box(modifier = Modifier.fillMaxSize()) {
+                LaunchedEffect(Unit) {
+                    val intent = Intent(context, InsetAnimationSampleActivity::class.java)
                     startWindowActivity.launch(intent)
                 }
             }
@@ -88,6 +98,10 @@ sealed interface PlaygroundNavigation {
 
     data object Window : PlaygroundNavigation {
         override val route: String = "window"
+    }
+
+    data object InsetAnimation : PlaygroundNavigation {
+        override val route: String = "inset_animation"
     }
 
     data object Layout : PlaygroundNavigation {

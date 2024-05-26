@@ -33,6 +33,11 @@ private val playGroundStates = listOf(
         navigationRoute = PlaygroundNavigation.Window
     ),
     PlayGroundState(
+        name = "Inset_Animation",
+        description = "Window Inset Animation Sample",
+        navigationRoute = PlaygroundNavigation.InsetAnimation
+    ),
+    PlayGroundState(
         name = "Layout",
         description = "Layout에 대한 예제입니다.",
         navigationRoute = PlaygroundNavigation.Layout,
