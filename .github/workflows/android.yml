@@ -2,25 +2,47 @@ name: Android CI
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    - name: set up JDK 17
+
+    - name: JDK 17 설정
       uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
         cache: gradle
 
-    - name: Grant execute permission for gradlew
+    - name: Gradle 캐시 복원
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    - name: gradlew 실행 권한 부여
       run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+
+    - name: Gradle 빌드
+      run: ./gradlew build --no-daemon --parallel
+
+    - name: 코틀린 스타일 테스트
+      run: ./gradlew ktlintCheck
+
+    - name: Kotlin 스타일 테스트
+      run: ./gradlew detekt
+
+    - name: Android Lint 테스트
+      run: ./gradlew lint
+
+    - name: 프로젝트 Unit 테스트
+      run: ./gradlew testDebugUnitTest
