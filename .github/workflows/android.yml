@@ -34,15 +34,3 @@ jobs:
 
     - name: Gradle 빌드
       run: ./gradlew build --no-daemon --parallel
-
-    - name: 코틀린 스타일 테스트
-      run: ./gradlew ktlintCheck
-
-    - name: Kotlin 스타일 테스트
-      run: ./gradlew detekt
-
-    - name: Android Lint 테스트
-      run: ./gradlew lint
-
-    - name: 프로젝트 Unit 테스트
-      run: ./gradlew testDebugUnitTest
