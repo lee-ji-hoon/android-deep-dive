@@ -1,0 +1,1 @@
+https://medium.com/@dlwlgns1240/coil-webp-gif-memory-cache-a6fa8c336f21
