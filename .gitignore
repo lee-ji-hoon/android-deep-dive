@@ -10,3 +10,4 @@
 local.properties
 /feature/window/build/
 /feature/compose-layout/build/
+/feature/coil/build/

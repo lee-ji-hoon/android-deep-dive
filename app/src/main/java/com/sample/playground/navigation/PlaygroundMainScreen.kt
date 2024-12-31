@@ -49,6 +49,11 @@ private val playGroundStates = listOf(
             )
         )
     ),
+    PlayGroundState(
+        name = "Image-Loader-Webp",
+        description = "Coil WebP Loader에 대한 예제입니다.",
+        navigationRoute = PlaygroundNavigation.Coil,
+    ),
 )
 
 data class PlayGroundState(
