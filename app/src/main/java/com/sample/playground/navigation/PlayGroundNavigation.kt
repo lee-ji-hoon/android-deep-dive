@@ -13,6 +13,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sample.feature.coil.CoilScreen
 import com.sample.feature.compose_layout.LayoutSampleModifyColumn
 import com.sample.feature.compose_layout.LayoutSampleModifyGrid
 import com.sample.feature.compose_layout.LayoutSampleModifyRow
@@ -58,6 +59,10 @@ fun PlaygroundNavigation() {
         }
 
         layoutSampleGraph(navController::navigate)
+
+        composable(route = "${PlaygroundNavigation.Coil}") {
+            CoilScreen()
+        }
     }
 }
 
@@ -65,7 +70,7 @@ fun NavGraphBuilder.layoutSampleGraph(onNavigate: (route: String) -> Unit) {
     composable(
         route = "${PlaygroundNavigation.Layout}"
     ) {
-        LayoutSampleScreen{
+        LayoutSampleScreen {
             onNavigate("${PlaygroundNavigation.Layout}/$it")
         }
     }
@@ -106,6 +111,10 @@ sealed interface PlaygroundNavigation {
 
     data object Layout : PlaygroundNavigation {
         override val route: String = "layout"
+    }
+
+    data object Coil : PlaygroundNavigation {
+        override val route: String = "coil"
     }
 }
 

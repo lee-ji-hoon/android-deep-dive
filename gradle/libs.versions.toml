@@ -25,7 +25,13 @@ ksp = "1.9.22-1.0.17"
 kotlinx-collection = "0.3.6"
 
 # coil
-coil = "2.4.0"
+coil = "3.0.1"
+
+# glide
+glide = "4.14.2"
+# glide-webp은 glide 버전에 의존함
+glide-webp = "2.3.4.14.2"
+glide-compose = "1.0.0-beta01"
 
 # etc
 dagger = "2.48"
@@ -75,9 +81,12 @@ kotlin-datetime = "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 kotlinx-collections = {module = "org.jetbrains.kotlinx:kotlinx-collections-immutable",version.ref ="kotlinx-collection"}
 
 # coil
-coil = { module = "io.coil-kt:coil", version.ref = "coil" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
-coil-svg = { module = "io.coil-kt:coil-svg", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
+coil-gif = { module = "io.coil-kt.coil3:coil-gif", version.ref = "coil" }
+
+# glide
+glide-compose = { module = "com.github.bumptech.glide:compose", version.ref = "glide-compose" }
 
 # gradle-plugin
 android-gradlePlugin = { module = "com.android.tools.build:gradle", version.ref = "androidStudioGradlePlugin" }
@@ -116,3 +125,12 @@ androidx-compose-debug = [
     "androidx-compose-uiTestManifest"
 ]
 
+coil3 = [
+    "coil-compose",
+    "coil-gif",
+    "coil-network",
+]
+
+glide = [
+    "glide-compose",
+]
